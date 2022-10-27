@@ -1,34 +1,44 @@
-import { Body, Controller, Get, Post, Param, ParseUUIDPipe, Patch } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Post,
+  Get,
+  Param,
+  ParseUUIDPipe,
+  Patch,
+  Delete,
+} from '@nestjs/common';
+import { UsersService } from './users.service';
 import { CreateUserDTO } from './dto/createUser.dto';
 import { UpdateUserDTO } from './dto/updateUser.dto';
-import { UsersService } from './users.service';
 
 @Controller('users')
 export class UsersController {
-    constructor(private readonly usersServices: UsersService) { }
+  constructor(private readonly usersService: UsersService) {}
 
-    // criar
+  // criar
   @Post()
   create(@Body() req: CreateUserDTO) {
-    return this.usersServices.create();
+    return this.usersService.create();
   }
-  // listar todos
+  // listar todos  localhost:3000/users
   @Get()
-  findAll(){
-    return this.usersServices.findAll()
+  findAll() {
+    return this.usersService.findAll();
   }
-  // listar um
+  // listar um  localhost:3000/users/1
   @Get(':id')
-  findOne(@Param('id', ParseUUIDPipe) id:number){
-    return this.usersServices.findOne(id)
+  findOne(@Param('id', ParseUUIDPipe) id: number) {
+    return this.usersService.findOne(id);
   }
-
   // atualizar
   @Patch(':id')
-  update(@Param('id', ParseUUIDPipe) id: number,
-  @Body() req: UpdateUserDTO){
-    return this.usersServices.update(id, req);
+  update(@Param('id', ParseUUIDPipe) id: number, @Body() req: UpdateUserDTO) {
+    return this.usersService.update(id, req);
   }
   // deletar
-  
+  @Delete(':id')
+  remove(@Param('id', ParseUUIDPipe) id: number) {
+    return this.usersService.remove(id);
+  }
 }
