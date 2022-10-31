@@ -1,6 +1,6 @@
 import { MigrationInterface, QueryRunner, Table } from "typeorm"
 import { idColumn } from "../utils/idColumn";
-import { varcharColumns } from "../utils/varcharColumns";
+import { varcharColumn } from '../utils/varcharColumns';
 
 export class users1666878667793 implements MigrationInterface {
 
@@ -9,9 +9,9 @@ export class users1666878667793 implements MigrationInterface {
             name: 'users',
             columns:[
                 idColumn('id'),
-                varcharColumns('name','100',false),
-                varcharColumns('email','255',false),
-                varcharColumns('password','64',false),
+                varcharColumn('name','100',false),
+                varcharColumn('email','255',false, true),
+                varcharColumn('password','64',false),
             ],
         }),);
     }
