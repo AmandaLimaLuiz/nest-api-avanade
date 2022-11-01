@@ -6,10 +6,11 @@ import { LogisticsModule } from "./logistics/logistics.module";
 import { OrdersModule } from "./orders/orders.module";
 import { ProductsModule } from "./products/products.module";
 import { UsersModule } from "./users/users.module";
+import { EmailModule } from './email/email.module';
 
 
 @Module({
-  imports: [AuthModule, UsersModule, ProductsModule, OrdersModule, LogisticsModule],
+  imports: [AuthModule, UsersModule, ProductsModule, OrdersModule, LogisticsModule, EmailModule],
   controllers: [AppController],
   providers: [AppService],
 })
