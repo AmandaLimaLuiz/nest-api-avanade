@@ -92,8 +92,26 @@ export class UsersService {
   }
 
   async update(id: number, req: UpdateUserDTO): Promise<object> {
-    const user = await this.getUserById(id.toString())
+    const user = await this.getUserById(id.toString());
+    
     const {name, email, password} = req;
+
+    if(email){
+      const checkEmail = await this.prisma.users.findMany({
+        where:{
+          AND:[{email: email}, {id: {not: Number(id)}}],          
+        }
+      })
+      if(checkEmail.length>0){
+        throw new HttpException({
+          status: HttpStatus.FORBIDDEN,
+          message: 'Este e-mail está indisponível',
+        },
+        HttpStatus.FORBIDDEN,
+        )
+      }
+    }
+
     const updateUser =  await this.prisma.users.update({
       where:{
         id: id,
@@ -115,7 +133,21 @@ export class UsersService {
     return {msg: `Usuário ${updateUser.name} atualizado com sucesso! `}
   }
 
-  async remove(id: number): Promise<string> {
-    return `Usuário ${id} deletado com sucesso!`;
+  async remove(id: number): Promise<object> {
+    const user = await this.getUserById(id.toString());
+    const deleteUser = await this.prisma.users.delete({
+      where:{
+        id: Number(id),
+      },
+    });
+    if(!deleteUser){
+      throw new HttpException({
+        status: HttpStatus.FORBIDDEN,
+        message: "Erro ao deletar usuário",
+      },
+      HttpStatus.FORBIDDEN,
+      )
+    }
+    return {msg: `Usuário ${id} deletado com sucesso!`};
   }
 }

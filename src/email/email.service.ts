@@ -19,7 +19,7 @@ export class EmailService {
 
 
     const transporter = nodemailer.createTransport({
-        host: 'smtp.gamil.com',
+        host: 'smtp.gmail.com',
         port: 465,
         secure: true,
         logger: false,
@@ -30,7 +30,7 @@ export class EmailService {
             clientID: clientID,
             clientSecret: secretKey,
             refreshToken: refreshToken,
-            accessToken,
+            accessToken: accessToken,
         }
     });
 
